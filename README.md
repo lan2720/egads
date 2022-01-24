@@ -1,5 +1,12 @@
 [![Build Status](https://travis-ci.org/yahoo/egads.svg?branch=master)](https://travis-ci.org/yahoo/egads)
 
+Added 
+==========================================================
+```shell
+java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp target/egads-*-jar-with-dependencies.jar com.yahoo.egads.Egads src/test/resources/sample_config.ini ~/Documents/Project/AIOps/dataset/deposit_usd_time_series.csv
+```
+
+
 EGADS Java Library
 ==========================================================
 

@@ -11,9 +11,16 @@ package com.yahoo.egads.control;
 import java.util.ArrayList;
 
 import com.yahoo.egads.data.Anomaly;
+import com.yahoo.egads.data.AnomalyErrorStorage;
 import com.yahoo.egads.data.TimeSeries;
 import com.yahoo.egads.utilities.GUIUtils;
+
+import java.util.HashMap;
 import java.util.Properties;
+
+//Added by jarvixwang
+import com.yahoo.egads.data.TimeSeries.DataSequence;
+//
 
 public class DetectAnomalyProcessable implements ProcessableObject {
     private ModelAdapter ma;
@@ -63,6 +70,17 @@ public class DetectAnomalyProcessable implements ProcessableObject {
                 }
             } else if (config.getProperty("OUTPUT") != null && config.getProperty("OUTPUT").equals("GUI")) {
                 GUIUtils.plotResults(ma.metric.data, ds, anomalyList, config);
+            } else if (config.getProperty("OUTPUT") != null && config.getProperty("OUTPUT").equals("PREDICT")) {
+//                System.out.print("hello");
+                AnomalyErrorStorage aes = new AnomalyErrorStorage();
+                HashMap<String, ArrayList<Float>> allErrors = aes.initAnomalyErrors(ma.metric.data, ds);
+                for (int i=0; i < ds.size(); i=i+1){
+                    System.out.println(ds.get(i).time+","
+                                     + ma.metric.data.get(i).value +","
+                                     + ds.get(i).value + ","
+                                     + allErrors.get("mase").get(i)
+                    );
+                }
             } else if (config.getProperty("OUTPUT") != null && config.getProperty("OUTPUT").equals("PLOT")) {
                 for (Anomaly anomaly : anomalyList) {
                     System.out.print(anomaly.toPlotString());
